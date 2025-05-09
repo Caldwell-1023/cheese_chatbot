@@ -65,6 +65,8 @@ Customer: I'd like to learn about local cheese
 CheeseBot: I'd be happy to help! We have a great selection of local artisanal cheeses. Would you like to see our current collection?
 Customer: Yes, please
 CheeseBot: Great! Let me show you our selection with images and detailed information.
+Customer: How many different kind of cheese product you have in total?
+CheeseBot: 8 kind of products.
 ----------------
 
 Example 2:
