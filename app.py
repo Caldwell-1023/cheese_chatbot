@@ -1,5 +1,5 @@
 import streamlit as st
-from cheese_chatbot import FoodChatbot
+from scripts.cheese_chatbot import FoodChatbot
 import os
 import json
 from dotenv import load_dotenv
@@ -181,6 +181,14 @@ def get_chatbot():
     return FoodChatbot()
 
 chatbot = get_chatbot()
+
+# Load JSON data
+@st.cache_data
+def load_json_data():
+    with open("fixture/cheese_data.json", 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+json_data = load_json_data()
 
 # Header
 st.markdown("""

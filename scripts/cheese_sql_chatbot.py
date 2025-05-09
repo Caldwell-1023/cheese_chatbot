@@ -12,7 +12,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 CHAT_MODEL = os.getenv("CHAT_MODEL")
 
 class CheeseSQLChatbot:
-    def __init__(self, db_path: str = "cheese_database.db"):
+    def __init__(self, db_path: str = "./fixture/cheese_database.db"):
         self.client = OpenAI(api_key=OPENAI_API_KEY)
         self.db_path = db_path
         self.conversation_history = []

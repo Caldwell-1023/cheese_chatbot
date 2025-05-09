@@ -3,7 +3,7 @@ from typing import List, Dict, Any
 from openai import OpenAI
 from pinecone import Pinecone
 import json
-from cheese_sql_chatbot import CheeseSQLChatbot
+from .cheese_sql_chatbot import CheeseSQLChatbot
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -14,7 +14,7 @@ PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 INDEX_NAME = os.getenv("INDEX_NAME")
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL")
 CHAT_MODEL = os.getenv("CHAT_MODEL")
-prompt_filename = "prompt.txt"
+prompt_filename = "./fixture/prompt.txt"
 
 # Initialize clients
 client = OpenAI(api_key=OPENAI_API_KEY)
