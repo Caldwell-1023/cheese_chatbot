@@ -121,7 +121,7 @@ class FoodChatbot:
         if len(self.conversation_history) > 10:
             self.conversation_history = self.conversation_history[-10:]
         
-        return response
+        return [response,relevant_products]
     
     def clear_history(self):
         """Clear the conversation history."""

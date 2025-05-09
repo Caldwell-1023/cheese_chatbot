@@ -1,6 +1,7 @@
 import streamlit as st
 from cheese_chatbot import FoodChatbot
 import os
+import json
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -13,6 +14,14 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+# Initialize session state variables
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+if "show_json" not in st.session_state:
+    st.session_state.show_json = False
+if "relevant_products" not in st.session_state:
+    st.session_state.relevant_products = "I'm a chatbot."
 
 # Custom CSS
 st.markdown("""
@@ -62,6 +71,18 @@ st.markdown("""
         align-items: center;
         justify-content: center;
         font-size: 1.5rem;
+    }
+    
+    /* JSON viewer styling */
+    .json-viewer {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-top: 1rem;
+        max-height: 600px;
+        overflow-y: auto;
+        font-family: monospace;
+        font-size: 0.9rem;
     }
     
     /* Updated Input box styling */
@@ -154,10 +175,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Initialize session state for chat history
-if "messages" not in st.session_state:
-    st.session_state.messages = []
-
 # Initialize chatbot
 @st.cache_resource
 def get_chatbot():
@@ -202,6 +219,17 @@ with st.sidebar:
             </ul>
         </div>
     """, unsafe_allow_html=True)
+    
+    # Add JSON viewer toggle
+    st.markdown("---")
+    if st.button("Toggle Raw JSON Data"):
+        st.session_state.show_json = not st.session_state.show_json
+    
+    if st.session_state.show_json:
+        st.markdown("### Raw JSON Data")
+        st.markdown('<div class="json-viewer">', unsafe_allow_html=True)
+        st.markdown(st.session_state.relevant_products)
+        st.markdown('</div>', unsafe_allow_html=True)
 
 # Chat interface
 def display_chat_message(role, content):
@@ -240,6 +268,9 @@ if user_input:
     with st.spinner("Thinking..."):
         try:
             response = chatbot.chat(user_input)
+            print(response)
+            st.session_state.relevant_products = response[1]
+            response = response[0]
             # Add assistant message to chat history
             st.session_state.messages.append({"role": "assistant", "content": response})
             display_chat_message("assistant", response)
