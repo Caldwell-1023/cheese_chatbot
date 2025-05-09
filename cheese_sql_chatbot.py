@@ -22,7 +22,6 @@ class CheeseSQLChatbot:
         """Initialize the SQLite database and create tables if they don't exist."""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        
         # Create products table
         cursor.execute('''
         CREATE TABLE IF NOT EXISTS products (
@@ -78,8 +77,9 @@ class CheeseSQLChatbot:
     
     def generate_sql_query(self, user_query: str) -> str:
         """Generate SQL query from natural language using GPT."""
-        system_prompt = """You are a SQL query generator. Convert the user's question about cheese products into a valid SQL query.
+        system_prompt = """You are a SQL query generator. Convert the user's question about cheese or cheese products into a valid SQL query.
         The database has a 'products' table with columns: name, category, price, lb_price, brand, upc, sku, weight.
+        And cheese category can be 'Cheese Wheel', 'Cream Cheese', 'Crumbled, Cubed, Grated, Shaved','Sliced Cheese','Shredded Cheese', 'Cottage Cheese' or 'Cheese Loaf'.
         Return ONLY the SQL query without any explanation, markdown formatting, or backticks."""
         
         messages = [
@@ -97,7 +97,7 @@ class CheeseSQLChatbot:
         # Clean up the SQL query by removing any markdown formatting or backticks
         sql_query = response.choices[0].message.content.strip()
         sql_query = sql_query.replace('```sql', '').replace('```', '').strip()
-        
+        print(sql_query)
         return sql_query
     
     def execute_query(self, sql_query: str) -> List[Dict[str, Any]]:

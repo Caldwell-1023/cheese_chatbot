@@ -90,7 +90,7 @@ class FoodChatbot:
             model=CHAT_MODEL,
             messages=messages,
             temperature=0.7,
-            max_tokens=500
+            max_tokens=10000
         )
         
         return response.choices[0].message.content
@@ -107,7 +107,7 @@ class FoodChatbot:
         sql_chatbot = CheeseSQLChatbot()
         sql_response = sql_chatbot.chat(query)
         print("sql")
-        
+        print(sql_response)
         if sql_response != "No one":
             print(sql_response)
             context = sql_response
